@@ -3,9 +3,9 @@ module.exports = function(grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 		
 		watch: {
-			css:{
+			email:{
 				files: 'src/css/style.css',
-				tasks: ['inlinecss']
+				tasks: ['inlinecss','replace']
 			}
 		},
 		inlinecss:{
@@ -15,12 +15,25 @@ module.exports = function(grunt) {
 					'dest/email.html': 'src/email.html'
 				}
 			}
+		},
+		replace: {
+			example: {
+				src: ['dest/email.html'],
+				dest: 'dest/email.html',
+				replacements: [{
+					from: ': ',
+					to: ':'
+				}, {
+					from: '; ',
+					to: ';'
+				}]
+			}
 		}
-		
 	});
 	
 	
 	grunt.loadNpmTasks('grunt-inline-css');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-text-replace');
 	grunt.registerTask('default', ['inlinecss']);	
 };
