@@ -2,6 +2,12 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		
+		watch: {
+			css:{
+				files: 'src/css/style.css',
+				tasks: ['inlinecss']
+			}
+		},
 		inlinecss:{
 			main:{
 				options:{},
@@ -15,6 +21,6 @@ module.exports = function(grunt) {
 	
 	
 	grunt.loadNpmTasks('grunt-inline-css');
-	grunt.registerTask('default',['inlinecss']);
-	
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.registerTask('default', ['inlinecss']);	
 };
