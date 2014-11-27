@@ -4,22 +4,25 @@ module.exports = function(grunt) {
 		
 		watch: {
 			email:{
-				files: 'src/css/style.css',
-				tasks: ['inlinecss','replace']
+				files: ['src/*.html','src/**/*.css'],
+				tasks: ['emailBuilder','replace']
 			}
 		},
-		inlinecss:{
-			main:{
-				options:{},
-				files: {
-					'dest/email.html': 'src/email.html'
-				}
+		emailBuilder:{
+			inline:{
+				files : [{
+					expand: true,
+					src: ['src/*.html'],
+					dest: 'dest/',
+					ext: '.html'
+				}]
 			}
 		},
 		replace: {
-			example: {
-				src: ['dest/email.html'],
-				dest: 'dest/email.html',
+			inlineCssMinify: {
+				src: ['dest/**/*.html'],
+				overwrite:true,
+				ext: '.html',
 				replacements: [{
 					from: ': ',
 					to: ':'
@@ -30,10 +33,9 @@ module.exports = function(grunt) {
 			}
 		}
 	});
-	
-	
-	grunt.loadNpmTasks('grunt-inline-css');
-	grunt.loadNpmTasks('grunt-contrib-watch');
+
 	grunt.loadNpmTasks('grunt-text-replace');
-	grunt.registerTask('default', ['inlinecss']);	
+	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-email-builder');
+	grunt.registerTask('default', ['emailBuilder','replace']);
 };
